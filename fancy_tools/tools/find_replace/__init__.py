@@ -1,6 +1,7 @@
 import sys
 import os
-import fileContentReplace as fcp
+
+import fancy_tools.utils.fileContentReplace as fcp
 
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QApplication, QDialog, QVBoxLayout, QFileDialog, QLineEdit
@@ -19,7 +20,8 @@ class FindAndReplace(QDialog):
 
         #Get ui file path
         root_dir = os.path.dirname(__file__)
-        ui_path = root_dir+"/ui.ui"
+        ui_path = os.path.join(root_dir, os.path.basename(root_dir)) + '.ui'
+
         # Load .ui file
         self.ui = QUiLoader().load(ui_path, parentWidget=self)
 
@@ -60,12 +62,10 @@ class FindAndReplace(QDialog):
 
     def printLog(self, value):
         self.ui.lineEdit_log.setText("{} files changed".format(str(value)))
-        
 
 if __name__ == "__main__":
     QApplication.setAttribute(Qt.AA_ShareOpenGLContexts)
     app = QApplication(sys.argv)
-    
 
     window = FindAndReplace()
     window.show()
