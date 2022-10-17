@@ -9,7 +9,7 @@ from PySide6.QtCore import QFile, QIODevice, Qt
 class FindAndReplace(QDialog):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
-
+        #blah
         #Initialize vars
         self.file_input = ""
         self.find_input = ""
