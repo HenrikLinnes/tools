@@ -45,7 +45,11 @@ class Assign_Shaders(QDialog):
 
         idx=1
         for key, value in json_read.items():
-            value_str = " ".join(value)
+            new_value = []
+            for item in value:
+                item = "/Root/RootOffset{}".format(item)
+                new_value.append(item)
+            value_str = " ".join(new_value)
             value_str = value_str.replace("|", "/")
             matlib_node.parm("matnode{}".format(idx)).set(key)
             matlib_node.parm("matpath{}".format(idx)).set(key)
