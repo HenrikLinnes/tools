@@ -1,0 +1,13 @@
+{
+    "python.analysis.useLibraryCodeForTypes": false,
+	"python.analysis.autoSearchPaths": false,
+	"python.analysis.typeCheckingMode": "off", // Set minimum to `basic` once hou type hinting sorts it shit out
+    "python.analysis.extraPaths": [
+        "C:\\Program Files\\Side Effects Software\\Houdini 19.0.383\\houdini\\python2.7libs"
+    ],
+    "python.analysis.diagnosticSeverityOverrides": {
+		"reportMissingModuleSource":"none"
+	},
+    "python.languageServer": "Pylance",
+	"python.analysis.diagnosticMode": "workspace"
+}
