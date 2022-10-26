@@ -11,19 +11,19 @@ class Assign_Shaders(QDialog):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
 
+        print("INITIALIZING..")
         self.json_file = ""
 
         #Get ui file path
         root_dir = os.path.realpath(__file__)
         file_name, file_extension = os.path.splitext(root_dir)
         ui_path = os.path.join(os.path.dirname(root_dir), file_name) + '.ui'
-        print("wtf :",ui_path)
 
         # LOAD UI
         self.ui = QUiLoader().load(ui_path, parentWidget=self)
 
         # Top-level layout for panels/qwidget
-        self.layout = QVBoxLayout(self)
+        self.layout = QVBoxLayout(self.ui)
         #self.layout.setContentsMargins(0, 0, 0, 0)
         self.layout.addWidget(self.ui)
 
@@ -63,12 +63,3 @@ class Assign_Shaders(QDialog):
         print("Getting inputs")
         self.file_path = self.ui.lineEdit_file_path.text()
         self.matlib_input = self.ui.lineEdit_matlib.text()
-
-if __name__ == "__main__":
-    QApplication.setAttribute(Qt.AA_ShareOpenGLContexts)
-    app = QApplication(sys.argv)
-
-    window = Assign_Shaders()
-    window.show()
-
-    sys.exit(app.exec())

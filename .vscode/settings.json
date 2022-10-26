@@ -3,7 +3,7 @@
 	"python.analysis.autoSearchPaths": false,
 	"python.analysis.typeCheckingMode": "off", // Set minimum to `basic` once hou type hinting sorts it shit out
     "python.analysis.extraPaths": [
-        "C:\\Program Files\\Side Effects Software\\Houdini 19.0.383\\houdini\\python2.7libs"
+        "C:\\Program Files\\Side Effects Software\\Houdini 19.5.368\\houdini\\python3.9libs"
     ],
     "python.analysis.diagnosticSeverityOverrides": {
 		"reportMissingModuleSource":"none"
