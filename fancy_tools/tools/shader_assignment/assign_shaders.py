@@ -23,7 +23,7 @@ class Assign_Shaders(QDialog):
         self.ui = QUiLoader().load(ui_path, parentWidget=self)
 
         # Top-level layout for panels/qwidget
-        self.layout = QVBoxLayout(self.ui)
+        self.layout = QVBoxLayout(self)
         #self.layout.setContentsMargins(0, 0, 0, 0)
         self.layout.addWidget(self.ui)
 
@@ -31,8 +31,6 @@ class Assign_Shaders(QDialog):
         self.ui.toolButton_file_path.clicked.connect(self.getFolder)
         self.ui.pushButton_run.clicked.connect(self.run)
 
-    def show(self):
-        pass
 
     def run(self):
         self.getInputs()
