@@ -1,16 +1,5 @@
-""" A TOOL WHICH LETS YOU BATCH SEARCH AND REPLACE WORDS WITHIN MULTIPLE FILES ACROSS FOLDERS """
-
-import glob
+# REPLACE STRING WITHIN A LIST OF FILES
 import fileinput
-
-def findFiles(path, file, *args):
-    print("files, ", file)
-    found_files = []
-    print(path,file)
-    for f in glob.glob("/%s/**/%s" %(path, file), recursive=True):
-        print("found : ", f)
-        found_files.append(f)
-    return found_files
 
 def replace(found_files, old, new, *args):
     files_renamed = 0
@@ -28,4 +17,3 @@ def replace(found_files, old, new, *args):
         temp_file.close()
     return files_renamed
 
-    

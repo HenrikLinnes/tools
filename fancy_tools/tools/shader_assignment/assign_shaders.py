@@ -37,27 +37,34 @@ class Assign_Shaders(QDialog):
 
     def run(self):
         self.getInputs()
+        self.populate_library()
 
-        matlib_node = hou.node(self.matlib_input)
 
+    def populate_library(self):
+
+        #TODO: change to also run when line edit is updated
         with open(self.file_path, 'r') as openfile:
             json_read = json.load(openfile)
 
+        matlib_node = hou.node(self.matlib_input)
         matlib_node.parm("materials").set(len(json_read))
 
         idx=1
         for key, value in json_read.items():
             new_value = []
             for item in value:
-                item = "/Root/RootOffset{}".format(item)
+                item = "{}{}{}".format(self.get_asset(), "/Root/RootOffset", item)
                 new_value.append(item)
             value_str = " ".join(new_value)
             value_str = value_str.replace("|", "/")
-            value_str = "/{}{}".format("Root/RootOffset", value_str)
             matlib_node.parm("matnode{}".format(idx)).set(key)
             matlib_node.parm("matpath{}".format(idx)).set(key)
             matlib_node.parm("geopath{}".format(idx)).set(value_str)
             idx += 1
+
+    def get_asset(self):
+        asset = self.asset_input.split("/g_geometry")[0]
+        return asset
 
     def getFolder(self):
         self.file_path = QFileDialog.getOpenFileName(self, 'Select File')
@@ -67,6 +74,7 @@ class Assign_Shaders(QDialog):
     def getInputs(self):
         self.file_path = self.ui.lineEdit_file_path.text()
         self.matlib_input = self.ui.lineEdit_matlib.text()
+        self.asset_input = self.ui.lineEdit_asset.text()
 
 '''
 if __name__ == "__main__":

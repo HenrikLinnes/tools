@@ -2,6 +2,7 @@ import sys
 import os
 
 import fancy_tools.utils.fileContentReplace as fcp
+import fancy_tools.utils.find_subfiles as fs
 
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QApplication, QDialog, QVBoxLayout, QFileDialog, QLineEdit
@@ -41,7 +42,7 @@ class FindAndReplace(QDialog):
         #Get all inputs
         self.getInputs()
 
-        found_files = fcp.findFiles(self.folder_path, self.file_input)
+        found_files = fs.findFiles(self.folder_path.strip(), self.file_input.strip())
         print(found_files)
         files_renamed = fcp.replace(found_files, self.find_input, self.replace_input)
         self.printLog(files_renamed)
@@ -55,7 +56,9 @@ class FindAndReplace(QDialog):
     def getInputs(self):
         print("Getting inputs")
         self.folder_path = self.ui.lineEdit_path.text()
+        print(self.folder_path)
         self.file_input = self.ui.lineEdit_file_name.text()
+        print(self.file_input)
         self.find_input = self.ui.lineEdit_find_word.text()
         self.replace_input = self.ui.lineEdit_replace_word.text()
         print(self.file_input,self.find_input,self.replace_input)
