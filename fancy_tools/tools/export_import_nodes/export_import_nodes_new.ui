@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>481</width>
+    <height>660</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QLineEdit" name="lineEdit_filepath">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>40</y>
+     <width>391</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>T:\assetLibrary\houdini_assets\NodeSnippet</string>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="toolButton_filepath">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>40</y>
+     <width>25</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>...</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>151</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>SET DIRECTORY</string>
+   </property>
+  </widget>
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>60</y>
+     <width>401</width>
+     <height>561</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>1</number>
+   </property>
+   <widget class="QWidget" name="tab_import">
+    <attribute name="title">
+     <string>Import</string>
+    </attribute>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QListWidget" name="listWidget">
+       <property name="viewMode">
+        <enum>QListView::IconMode</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="tab_export">
+    <attribute name="title">
+     <string>Export</string>
+    </attribute>
+    <widget class="QLineEdit" name="lineEdit_export_name">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>30</y>
+       <width>221</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="placeholderText">
+      <string>Export Name</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_export">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>60</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Export</string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
