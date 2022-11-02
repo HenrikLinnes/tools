@@ -1,11 +1,22 @@
-d = {"1": ["a","b", "c"]}
+d = {"asset_name": ["a","b", "c"],
+      "icon_path": ["test/a", "test/b", "test/c"],
+      "cpio_path": ["a.cpio", "b.cpio", "c.cpio"]}
 
-for key, value in d.items():
-    new_value = []
-    for item in value:
-        item = "d_{}".format(item)
-        new_value.append(item)
-    d[key]=new_value
+for idx, key in enumerate(d.keys()):
+    print(d["asset_name"][idx], d["icon_path"][idx], d["cpio_path"][idx] )
 
 
-print(d)
+
+
+
+# path = r"T:/assetLibrary/houdini_assets/NodeSnippet/Test/Test.jpg"
+
+# import requests
+# from fancy_tools.utils import requests_file
+
+# s = requests.Session()
+# s.mount('file://', requests_file.FileAdapter())
+
+# resp = s.get('file:///T:/assetLibrary/houdini_assets/NodeSnippet/Test')
+
+# print(resp)

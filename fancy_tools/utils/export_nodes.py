@@ -25,6 +25,7 @@ def export_screengrab(path):
     # SET FLIPBOOK SETTINGS
     fbs = viewer.flipbookSettings().stash()
     fbs.frameRange((1,1))
+    fbs.resolution((100,100))
     fbs.output("{}.jpg".format(path.rsplit('.',1)[0]))
     fbs.outputToMPlay(False)
     # WRITE FILE

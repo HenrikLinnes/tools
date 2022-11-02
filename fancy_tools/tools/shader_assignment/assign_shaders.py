@@ -67,7 +67,7 @@ class Assign_Shaders(QDialog):
         return asset
 
     def getFolder(self):
-        self.file_path = QFileDialog.getOpenFileName(self, 'Select File')
+        self.file_path = QFileDialog.getOpenFileName(self, 'Select File') #QDialog if self fails
         self.ui.lineEdit_file_path.setText(self.file_path[0])
 
 
