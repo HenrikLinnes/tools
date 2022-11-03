@@ -18,17 +18,9 @@ class export_import_nodes(QDialog):
     def __init__(self, parent=None) -> None:
         super().__init__(parent, Qt.WindowStaysOnTopHint)
 
-        #Library paths
+        # HARD CODED PATHS
         #TODO: Make dynamic dropdown, hard coded for now
         asset_paths = [r"T:\assetLibrary\houdini_assets\NodeSnippet", r"T:\assetLibrary\houdini_assets\LightRigs"]
-
-        selected_library = r"T:/assetLibrary/houdini_assets/NodeSnippet"
-        self.file_path = selected_library
-
-        # populate assets from default asset library
-        self.current_assets = {}
-        self.update_current_assets(selected_library)
-
 
         #Get ui file path
         root_dir = os.path.realpath(__file__)
@@ -50,15 +42,26 @@ class export_import_nodes(QDialog):
         self.asset_area = self.ui.asset_area
         self.asset_lib = self.ui.comboBox_asset_path
 
-        self.asset_lib.addItems(asset_paths)
-
         # setup for flow layout
         self.widget = QWidget()
         self.asset_area.setWidget(self.widget)
 
         asset_view = flow_layout.FlowLayout(self.widget)
 
-        # define misc vars
+        # Populate asset library dropdown
+        self.asset_lib.addItems(asset_paths)
+
+        # Get current value
+        selected_library = self.asset_lib.currentText()
+        self.file_path = selected_library
+
+        # populate assets from default asset library
+        self.current_assets = {}
+        self.update_current_assets(selected_library)
+
+
+        # TODO: add support for different thumbnail sizes
+        # define thumbnail size used in gui
         thumbnail_size = 100
 
         #Fill FlowLayout with current items
@@ -115,32 +118,3 @@ class export_import_nodes(QDialog):
             self.current_assets[assets[idx]]["asset_name"] = assets[idx]
             self.current_assets[assets[idx]]["icon_path"] = os.path.join(library_path, assets[idx])+"/{}.jpg".format(assets[idx])
             self.current_assets[assets[idx]]["cpio_path"] = os.path.join(library_path, assets[idx])+"/{}.cpio".format(assets[idx])
-
-
-'''
-    # old shait
-    def update_snippet_view(self):
-        #put all snippets in list
-        self.existing_snippets = [name for name in os.listdir(self.file_path) if os.path.isdir(os.path.join(self.file_path,name))]
-        print(self.existing_snippets)
-        for snippet in self.existing_snippets:
-            icon_path = os.path.join(self.file_path, snippet)+"/{}.jpg".format(snippet)
-            item = QToolButton()
-            item.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-            item.setIconSize(QSize(200,200))
-            item.setFixedSize(QSize(200,200))
-            item.setText(snippet)
-
-            #item = QListWidgetItem(snippet)
-            #item.setSizeHint(QSize(200,200))
-            #item.setIcon(QIcon(icon_path))
-            self.snippet_view.addWidget(item)
-
-            item.clicked.connect(self.clicked)
-
-    # def get_file_path(self):
-    #     file_path = QFileDialog.getExistingDirectory(self, 'Select Folder') #getExistingDirectory, getOpenFileName
-    #     self.file_path = file_path
-    #     self.ui.lineEdit_filepath.setText(self.file_path)
-
-'''
