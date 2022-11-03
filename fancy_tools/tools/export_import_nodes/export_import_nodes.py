@@ -1,17 +1,12 @@
-# TODO: add library feature
-# TODO: viewport screengrab
-# TODO: better ui
+# TODO: add library feature : WIP
+# TODO: viewport screengrab : DONE
+# TODO: better ui : WIP
+# TODO: load thumbnails in threads to prevent houdini from being blocked ( if possible )
 
-
-from logging import RootLogger
-from operator import iconcat
 import os, sys, hou
-from turtle import screensize
-from fancy_tools.utils import export_nodes, flow_layout
-
 import importlib
 
-from symbol import flow_stmt
+from fancy_tools.utils import export_nodes, flow_layout
 importlib.reload(export_nodes)
 
 from hutil.Qt.QtUiTools import QUiLoader
@@ -24,7 +19,7 @@ class export_import_nodes(QDialog):
         super().__init__(parent, Qt.WindowStaysOnTopHint)
 
         #Library paths
-        #TODO: Make dynamic dropdown
+        #TODO: Make dynamic dropdown, hard coded for now
         asset_paths = [r"T:\assetLibrary\houdini_assets\NodeSnippet", r"T:\assetLibrary\houdini_assets\LightRigs"]
 
         selected_library = r"T:/assetLibrary/houdini_assets/NodeSnippet"
@@ -38,7 +33,7 @@ class export_import_nodes(QDialog):
         #Get ui file path
         root_dir = os.path.realpath(__file__)
         file_name, file_extension = os.path.splitext(root_dir)
-        ui_path = os.path.join(os.path.dirname(root_dir), file_name) + '_new.ui'
+        ui_path = os.path.join(os.path.dirname(root_dir), file_name)+".ui"
 
         # Load UI and apply houdini stylesheet
         self.ui = QUiLoader().load(ui_path, parentWidget=self)
@@ -67,35 +62,23 @@ class export_import_nodes(QDialog):
         thumbnail_size = 100
 
         #Fill FlowLayout with current items
-        for idx, asset_name in enumerate(self.current_assets["asset_name"]):
-            print("hello: ", asset_name, self.current_assets["icon_path"][idx], self.current_assets["cpio_path"][idx] )
+        # TODO: Wrap into function and recall it when library is changed or new assets are exported
+        for asset in self.current_assets.keys():
             asset_item = QToolButton()
-            asset_item.setIcon(QIcon(self.current_assets["icon_path"][idx]))
+            asset_item.setIcon(QIcon(self.current_assets[asset]["icon_path"]))
             asset_item.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
             asset_item.setIconSize(QSize(thumbnail_size, thumbnail_size))
             asset_item.setFixedSize(QSize(thumbnail_size*1.3, thumbnail_size*1.3))
-            asset_item.setText(self.current_assets["asset_name"][idx])
-            asset_item.setObjectName(self.current_assets["asset_name"][idx])
+            asset_item.setText(self.current_assets[asset]["asset_name"])
+            asset_item.setObjectName(self.current_assets[asset]["asset_name"])
             asset_view.addWidget(asset_item)
-            asset_item.clicked.connect(self.asset_clicked)
+            asset_item.clicked.connect(self.import_nodes)
 
         #Resize cuz otherwise the shit wont show
         self.resize(self.ui.size().width(), self.ui.size().height())
 
         #Link buttons to functions
-        # self.ui.pushButton_import.clicked.connect(self.import_nodes)
-        # self.ui.toolButton_filepath.clicked.connect(self.get_file_path)
         self.ui.pushButton_export.clicked.connect(self.export_nodes)
-
-
-    def asset_clicked(self, asset_name):
-        print(self.sender().objectName())
-
-    # def get_file_path(self):
-    #     file_path = QFileDialog.getExistingDirectory(self, 'Select Folder') #getExistingDirectory, getOpenFileName
-    #     self.file_path = file_path
-    #     self.ui.lineEdit_filepath.setText(self.file_path)
-
 
     def export_nodes(self):
         snippet_path, screengrab_path = self.prepare_export(self.file_path)
@@ -111,7 +94,8 @@ class export_import_nodes(QDialog):
         print("export complete")
 
     def import_nodes(self):
-        export_nodes.import_nodes(self.file_path)
+        cpio_path = self.current_assets[self.sender().objectName()]["cpio_path"]
+        export_nodes.import_nodes(cpio_path)
 
     def prepare_export(self, path):
         snippet_name = self.ui.lineEdit_export_name.text()
@@ -119,24 +103,21 @@ class export_import_nodes(QDialog):
         screengrab_path = "{}/{}/{}.jpg".format(path,snippet_name, snippet_name)
 
         #print("path: {}, snippet_name: {}, snippet_path: {}, screengrab_path: {}".format(path, snippet_name, snippet_path, screengrab_path))
-
         return snippet_path, screengrab_path
 
+    #TODO: test using nested dict
     def update_current_assets(self, library_path):
         # Get all folders in path
         assets = [name for name in os.listdir(library_path) if os.path.isdir(os.path.join(library_path,name))]
-        name_list = []
-        icon_list = []
-        cpio_list = []
-        # Get sub files and store in dict
-        for asset in assets:
-            name_list.append(asset)
-            icon_list.append(os.path.join(library_path, asset)+"/{}.jpg".format(asset))
-            cpio_list.append(os.path.join(library_path, asset)+"/{}.cpio".format(asset))
-        self.current_assets["asset_name"] = name_list
-        self.current_assets["icon_path"] = icon_list
-        self.current_assets["cpio_path"] = cpio_list
 
+        for idx in range (len(assets)):
+            self.current_assets[assets[idx]] = {}
+            self.current_assets[assets[idx]]["asset_name"] = assets[idx]
+            self.current_assets[assets[idx]]["icon_path"] = os.path.join(library_path, assets[idx])+"/{}.jpg".format(assets[idx])
+            self.current_assets[assets[idx]]["cpio_path"] = os.path.join(library_path, assets[idx])+"/{}.cpio".format(assets[idx])
+
+
+'''
     # old shait
     def update_snippet_view(self):
         #put all snippets in list
@@ -156,3 +137,10 @@ class export_import_nodes(QDialog):
             self.snippet_view.addWidget(item)
 
             item.clicked.connect(self.clicked)
+
+    # def get_file_path(self):
+    #     file_path = QFileDialog.getExistingDirectory(self, 'Select Folder') #getExistingDirectory, getOpenFileName
+    #     self.file_path = file_path
+    #     self.ui.lineEdit_filepath.setText(self.file_path)
+
+'''
