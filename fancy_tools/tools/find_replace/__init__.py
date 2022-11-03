@@ -1,8 +1,8 @@
 import sys
 import os
 
-import fancy_tools.utils.fileContentReplace as fcp
-import fancy_tools.utils.find_subfiles as fs
+from fancy_tools.utils import fileContentReplace as fcp
+from fancy_tools.utils import find_subfiles as fs
 
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QApplication, QDialog, QVBoxLayout, QFileDialog, QLineEdit

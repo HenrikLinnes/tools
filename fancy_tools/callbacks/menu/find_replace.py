@@ -2,6 +2,7 @@ import os
 import sys
 
 from PySide6 import QtWidgets, QtCore
+from fancy_tools.utils import find_replace
 
 
 def bootstrap():
@@ -13,8 +14,6 @@ def bootstrap():
 
 
 def main():
-    from fancy_tools.tools import find_replace
-
     QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_ShareOpenGLContexts)
     app = QtWidgets.QApplication(sys.argv)
 
