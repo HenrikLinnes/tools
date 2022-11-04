@@ -8,7 +8,7 @@ def bootstrap():
     this_dir = os.path.dirname(__file__) # menu
     parent_dir = os.path.dirname(this_dir) # callbacks
     grand_parent_dir = os.path.dirname(parent_dir) # fancy_tools
-    grand_grand_parent_dir = os.path.dirname(grand_parent_dir) # fancy_tools
+    grand_grand_parent_dir = os.path.dirname(grand_parent_dir) # henrik-tools
 
     if not grand_grand_parent_dir in sys.path:
         sys.path.insert(0, grand_grand_parent_dir)
