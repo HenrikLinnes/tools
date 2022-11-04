@@ -29,7 +29,6 @@ class export_import_nodes(QDialog):
 
         # Load UI and apply houdini stylesheet
         self.ui = QUiLoader().load(ui_path, parentWidget=self)
-
         stylesheet = hou.qt.styleSheet()
         self.setStyleSheet(stylesheet)
 
@@ -40,7 +39,7 @@ class export_import_nodes(QDialog):
 
         #Qt bindings
         self.asset_area = self.ui.asset_area
-        self.asset_lib = self.ui.comboBox_asset_path
+        self.asset_lib_list = self.ui.comboBox_asset_path
 
         # setup for flow layout
         self.widget = QWidget()
@@ -49,16 +48,15 @@ class export_import_nodes(QDialog):
         asset_view = flow_layout.FlowLayout(self.widget)
 
         # Populate asset library dropdown
-        self.asset_lib.addItems(asset_paths)
+        self.asset_lib_list.addItems(asset_paths)
 
-        # Get current value
-        selected_library = self.asset_lib.currentText()
-        self.file_path = selected_library
+        # Get current assete_library value
+        selected_library = self.asset_lib_list.currentText()
+        # self.file_path = selected_library
 
         # populate assets from default asset library
         self.current_assets = {}
-        self.update_current_assets(selected_library)
-
+        self.update_asset_dict(selected_library)
 
         # TODO: add support for different thumbnail sizes
         # define thumbnail size used in gui
@@ -84,8 +82,7 @@ class export_import_nodes(QDialog):
         self.ui.pushButton_export.clicked.connect(self.export_nodes)
 
     def export_nodes(self):
-        snippet_path, screengrab_path = self.prepare_export(self.file_path)
-
+        snippet_path, screengrab_path = self.prepare_export(self.asset_lib_list.currentText())
         #CHeck if folder exists
         #TODO: check if snippet already exists, if it does, ask if user wants to overwrite
         folder_path = os.path.dirname(snippet_path)
@@ -109,7 +106,7 @@ class export_import_nodes(QDialog):
         return snippet_path, screengrab_path
 
     #TODO: test using nested dict
-    def update_current_assets(self, library_path):
+    def update_asset_dict(self, library_path):
         # Get all folders in path
         assets = [name for name in os.listdir(library_path) if os.path.isdir(os.path.join(library_path,name))]
 
