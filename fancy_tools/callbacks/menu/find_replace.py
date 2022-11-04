@@ -14,6 +14,16 @@ def bootstrap():
         sys.path.insert(0, grand_grand_parent_dir)
 
 
+def bootstrap_dynamic():
+    target_module = 'fancy_tools'
+    this_path = __file__.replace('\\', '/')
+    containing_folder, _ = this_path.split('/{}/'.format(target_module))
+
+    if not containing_folder in sys.path:
+        print('Bootstrapping {}'.format(containing_folder))
+        sys.path.insert(0, containing_folder)
+
+
 def main():
     from fancy_tools.tools import find_replace
 
@@ -28,5 +38,5 @@ def main():
 
 # TODO: Implement argparse -> https://docs.python.org/3/library/argparse.html
 if __name__ == "__main__":
-    bootstrap()
+    bootstrap_dynamic()
     main()
