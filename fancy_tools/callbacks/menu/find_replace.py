@@ -2,18 +2,21 @@ import os
 import sys
 
 from PySide6 import QtWidgets, QtCore
-from fancy_tools.tools import find_replace
 
 
 def bootstrap():
-    this_dir = os.path.dirname(__file__)
-    parent_dir = os.path.dirname(this_dir)
+    this_dir = os.path.dirname(__file__) # menu
+    parent_dir = os.path.dirname(this_dir) # callbacks
+    grand_parent_dir = os.path.dirname(parent_dir) # fancy_tools
+    grand_grand_parent_dir = os.path.dirname(grand_parent_dir) # fancy_tools
 
-    if not parent_dir in sys.path:
-        sys.path.insert(0, parent_dir)
+    if not grand_grand_parent_dir in sys.path:
+        sys.path.insert(0, grand_grand_parent_dir)
 
 
 def main():
+    from fancy_tools.tools import find_replace
+
     QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_ShareOpenGLContexts)
     app = QtWidgets.QApplication(sys.argv)
 
